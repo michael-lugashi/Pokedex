@@ -1,33 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="./index.js" defer></script>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous" defer></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+      defer
+    ></script>
 
     <title>Pokedex</title>
-</head>
-<body>
-    <h1>Pokedex</h1>
-    <div id="pokedexContainer">
-        <input type="text" id="search">
-        <button id="searchPokemon">search</button>
-        <div id="displayPokemon">
+  </head>
+  <body>
+    <h1 class="title">Pokedex</h1>
+    <div id="pokedexContainer" class="container">
+      <div class="row">
+        <div class="col-sm-8">
+          <input type="text" id="search" />
+          <button id="searchPokemon" type="button" class="btn btn-danger">Search</button>
+          <!-- <button id="searchPokemon">search</button> -->
+          <div id="displayPokemon">
             <ul>
-                <li id="namePokemon">Name: </li>
-                <li id="height">Height: </li>
-                <li id="weight">Weight: </li>
-                <li id="types">types: </li>
+              <li id="namePokemon">Name:</li>
+              <li id="height">Height:</li>
+              <li id="weight">Weight:</li>
+              <li id="types">types:</li>
             </ul>
-            <img id="pokemonPicture" src="https://icon-library.com/images/small-pokeball-icon/small-pokeball-icon-4.jpg" alt="picture">
-            <ul id="pokemonTypeList"></ul>
+            <img
+              id="pokemonPicture"
+              src="https://icon-library.com/images/small-pokeball-icon/small-pokeball-icon-4.jpg"
+              alt="picture"
+            />
+          </div>
         </div>
-    
-</body>
+        <div class="col-sm-4 type">
+            <h2>Type: </h2>
+          <ul id="pokemonTypeList"></ul>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

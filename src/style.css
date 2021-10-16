@@ -1,5 +1,21 @@
+body {
+    background-image: url(../images/snorlaxBackground.webp);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
 #pokemonPicture {
 
 height: 96px;
 /* width: 96px; */
+}
+.title{
+    text-align: center;
+    color: red;
+    margin-bottom: 3vh;
+}
+.type {
+    /* border-left: ; */
+
 }
