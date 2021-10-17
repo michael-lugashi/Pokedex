@@ -1,21 +1,58 @@
 body {
-    background-image: url(../images/snorlaxBackground.webp);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
+  background-image: url(../images/snorlaxBackground.webp);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 #pokemonPicture {
-
-height: 96px;
-/* width: 96px; */
+  width: 180px;
 }
-.title{
-    text-align: center;
-    color: red;
-    margin-bottom: 3vh;
+.title {
+  text-align: center;
+  color: #f9f4ad;
+  margin-bottom: 3vh;
 }
 .type {
-    /* border-left: ; */
+  color: #dc3545;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.type::-webkit-scrollbar {
+  width: 10px;
+}
 
+.type::-webkit-scrollbar-track {
+  background: rgb(131, 141, 131, 0);
+  border-radius: 20px;
+}
+
+.type::-webkit-scrollbar-thumb {
+  background-color: burlywood;
+  border-radius: 20px;
+  border: 2px outset cornsilk;
+}
+.fromRight {
+  padding-right: 10vw;
+ 
+}
+.headings {
+  color: #f9f4ad;
+}
+.list {
+  padding: 0;
+  list-style-type: none;
+  color: #dc3545;
+  font-size: 20px;
+}
+.pokemonName {
+  background-color: #dc354694;
+  color: #f9f4ad;
+  list-style-type: none;
+  font-size: 20px;
+  margin-right: 3vw;
+  margin-bottom: 2px;
+  border-radius: 20px;
+  padding-left: 5px;
+  overflow: auto;
 }

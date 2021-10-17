@@ -27,11 +27,24 @@
     <div id="pokedexContainer" class="container">
       <div class="row">
         <div class="col-sm-8">
-          <input type="text" id="search" />
-          <button id="searchPokemon" type="button" class="btn btn-danger">Search</button>
-          <!-- <button id="searchPokemon">search</button> -->
+          <h2 class="headings">Find Pokemon</h2>
+
+          <div class="input-group mb-3 fromRight">
+            <input
+              type="text"
+              id="search"
+              class="form-control"
+              placeholder="Pokemon..."
+              aria-label="Pokemon..."
+              aria-describedby="searchPokemon"
+            />
+            <button class="btn btn-danger" type="button" id="searchPokemon">
+              Search
+            </button>
+          </div>
+
           <div id="displayPokemon">
-            <ul>
+            <ul class="list">
               <li id="namePokemon">Name:</li>
               <li id="height">Height:</li>
               <li id="weight">Weight:</li>
@@ -45,7 +58,7 @@
           </div>
         </div>
         <div class="col-sm-4 type">
-            <h2>Type: </h2>
+          <h2 id="typeHeading" class="headings">Type:</h2>
           <ul id="pokemonTypeList"></ul>
         </div>
       </div>

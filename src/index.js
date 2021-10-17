@@ -51,6 +51,7 @@ function findPokemonByType(event) {
   if (event.target.tagName !== 'SPAN') {
     return;
   }
+  typeHeading.textContent = `Type: ${event.target.textContent}`;
   axios
     .get(`https://pokeapi.co/api/v2/type/${event.target.textContent}`)
     .then((result) => displayNames(result.data.pokemon));
@@ -73,6 +74,7 @@ function displayNames(pokemon) {
 function createListEl(name) {
   const pokemon = document.createElement('li');
   pokemon.textContent = name;
+  pokemon.classList.add('pokemonName');
   return pokemon;
 }
 
