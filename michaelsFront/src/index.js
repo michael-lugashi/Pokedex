@@ -7,7 +7,7 @@ pokemonTypeList.addEventListener('click', searchPokemonFromType);
 // Text from the search bar is sent to the api
 function searching() {
   axios
-    .get(`https://pokeapi.co/api/v2/pokemon/${search.value.toLowerCase()}`)
+    .get(`http://localhost:3000/pokemon/get/${search.value.toLowerCase()}`)
     .then((response) => updateDom(response.data))
     .catch(() => alert('That Pokemon does not exist!'));
 }
