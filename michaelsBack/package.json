@@ -1,0 +1,19 @@
+{
+  "name": "michaelsBack",
+  "version": "1.0.0",
+  "description": "1. Start a new express project\r     1. Create a folder named `pokemon-api`\r     2. Init a package file for the project\r     3. Install `express` project dependency\r     4. Install `nodemon` as development dependency\r     5. [Declare a script](https://www.freecodecamp.org/news/introduction-to-npm-scripts-1dbb2ae01633/) named `dev` which executes `nodemon index.js` in `package.json`\r 2. Create file `index.js`:\r     ```js\r     const express = require('express');\r     const app = express();\r     const port = 8080;",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  }
+}
