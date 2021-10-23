@@ -8,16 +8,18 @@ router.get('/pokemon/get/:id', function(req, res) {
     const pokemonId = req.params.id;
     P.getPokemonByName(pokemonId).then((pokemon) => {
         res.send(pokemon);
+    })
 })
 
-router.get('/pokemon/query', function(req, res) {
-    const pokemonName = req.query;
-    const pokemon = P.getPokemonByName(pokemonName).then((pokemon) => {
+
+// router.get('/pokemon/query', function(req, res) {
+//     const pokemonName = req.query;
+//     const pokemon = P.getPokemonByName(pokemonName).then((pokemon) => {
         
-       const { name, height, weight, types, front_pic, back_pic, abilities } = pokemon;
+//        const { name, height, weight, types, front_pic, back_pic, abilities } = pokemon;
         
    
-    json.send({
+//     json.send({
         
-    })
-  })
+//     })
+//   })
