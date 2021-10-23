@@ -1,12 +1,12 @@
 //<---------------- API ----------------->
 
-// Get pokemon stats by name or ID through API
-const baseUrl = "http://localhost:3000/pokemon/get/"; //API "GET" URL
+// Get pokemon stats by name or ID through API (pokemonRouter.js)
+const baseUrl = "http://localhost:3000/"; //API "GET" URL
 const getPokemonByName = async (pokemonName) => { //Async Pokemon data get by name query
     try {
+        console.log(pokemonName);
         const response = await axios.get(
-            //`https://pokeapi.co/api/v2/pokemon/${pokemonName}`
-            baseUrl + pokemonName
+            //`${baseUrl}pokemon/get/${pokemonName}`
         );
         const data = response.data;
         const pokemonObject = pokemonCreator(data.name, data.height, data.weight, data.types, data.id); //Creates a new Pokemon object
@@ -15,6 +15,7 @@ const getPokemonByName = async (pokemonName) => { //Async Pokemon data get by na
         console.error("Invalid name or ID")
     }
 };
+//`${baseUrl}pokemon/?pokemon=${pokemonName}` //query operator
 
 
 // Get pokemon type stats through API
