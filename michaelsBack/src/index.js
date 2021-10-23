@@ -7,6 +7,7 @@ const pokemonRouter = require('./routers/getPokemon');
 const queryRouter = require('./routers/queryPokemon');
 const catchRouter = require('./routers/putCatchPokemon');
 const releasePokemon = require('./routers/releasePokemon');
+const user = require('./routers/userRouter');
 const port = 3000;
 
 // start the server
@@ -20,11 +21,13 @@ app.use((req, res, next) => {
   res.append('Access-Control-Allow-Headers', 'Content-Type');
   next();
 });
+app.use(express.json())
 // route our app
 app.use('/pokemon/get/', pokemonRouter);
 app.use('/pokemon/', queryRouter);
 app.use('/pokemon/catch/', catchRouter)
 app.use('/pokemon/release/', releasePokemon)
+app.use('/info', user)
 // app.get('/pokemon/get/:id', (req, res) => {
 //   console.log(req.params.id);
 //   P.getPokemonByName(req.params.id).then((pokemon) => {
