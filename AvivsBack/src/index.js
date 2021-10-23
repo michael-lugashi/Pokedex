@@ -23,12 +23,6 @@ app.use((req, res, next) => { // chrome only work with this headers !
 // route our app
 app.use('/pokemon/get/', pokemonRouter); //Get equest by id with dynamic router 
 app.use('/pokemon/', queryRouter); //Get equest by name with query router 
-app.use('/pokemon/catch/', catchRouter) // Put request 
-//<------ Regular get by name request ------>
-// app.get('/pokemon/get/:id', (req, res) => {
-//   console.log(req.params.id)
-//   P.getPokemonByName(req.params.id).then((pokemon) => {
-//     res.send(pokemon);
-//   });
-// });
+app.use('/pokemon/catch/', catchRouter); // Put request 
+
  

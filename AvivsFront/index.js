@@ -1,7 +1,7 @@
 //<---------------- API ----------------->
 
 // Get pokemon stats by name or ID through API
-const baseUrl = "http://localhost:3000/pokemon/get/"; //API "GET" URL
+const baseUrl = "http://localhost:3000/pokemon/"; //API "GET" URL
 const getPokemonByName = async (pokemonName) => { //Async Pokemon data get by name query
     try {
         const response = await axios.get(
