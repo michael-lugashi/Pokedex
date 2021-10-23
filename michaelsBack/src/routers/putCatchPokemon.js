@@ -26,10 +26,16 @@ router.put('/:id', (req, res) => {
       abilities,
       id,
     };
-    console.log(os.userInfo());
-    if (fs.existsSync(`./src/users/${os.userInfo().username}/${req.params.id}.json`)) {
-        res.status(403).send('This pokemon is already cought');
-      }
+    // console.log(os.userInfo());
+    if (
+      fs.existsSync(
+        `./src/users/${os.userInfo().username}/${req.params.id}.json`
+      )
+    ) {
+      res.status(403).send('This pokemon is already cought');
+      return;
+      console.log('brave');
+    }
     if (!fs.existsSync(`./src/users/${os.userInfo().username}`)) {
       fs.mkdirSync(`./src/users/${os.userInfo().username}`);
     }
@@ -40,6 +46,7 @@ router.put('/:id', (req, res) => {
       `./src/users/${os.userInfo().username}/${req.params.id}.json`,
       JSON.stringify(pokemonFiltered)
     );
+    res.send(req.params.id);
   });
   // ./users/max-langerman/134.json
 
@@ -57,8 +64,6 @@ router.put('/:id', (req, res) => {
   //     }
   //   })
   console.log(req.params.id);
-
-  res.send(req.params.id);
 });
 
 module.exports = router;
