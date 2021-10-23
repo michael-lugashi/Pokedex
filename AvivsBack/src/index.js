@@ -3,9 +3,12 @@ const express = require('express');
 const app = express();
 const Pokedex = require('pokedex-promise-v2');
 const P = new Pokedex();
-const pokemonRouter = require('./routers/pokemonRouter');
-const queryRouter = require('./routers/queryPokemon');
-const catchRouter = require('./routers/putCatchPokemon');
+const idRouter = require('./routers/idRouter');
+const queryRouter = require('./routers/queryRouter');
+const catchRouter = require('./routers/catchRouter');
+const listRouter = require('./routers/listRouter');
+const releaseRouter = require('./routers/releaseRouter');
+
 const port = 3000;
 
 // start the server
@@ -21,8 +24,10 @@ app.use((req, res, next) => { // chrome only work with this headers !
 });
 
 // route our app
-app.use('/pokemon/get/', pokemonRouter); //Get equest by id with dynamic router 
-app.use('/pokemon/', queryRouter); //Get equest by name with query router 
-app.use('/pokemon/catch/', catchRouter); // Put request 
+app.use('/pokemon/get/', idRouter); //Get request by id with dynamic router 
+app.use('/pokemon/?pokemon=', queryRouter); //Get request by name with query router 
+app.use('/pokemon/catch/', catchRouter); //Put request by id, adds database 
+app.use('/pokemon/release/', releaseRouter);//Put request by id, discards database
+app.use('/pokemon/', listRouter);//Get request, returns list of database
 
  
