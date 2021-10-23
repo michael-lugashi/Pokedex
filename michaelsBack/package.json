@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "mkdirp": "^1.0.4",
     "pokedex-promise-v2": "^3.3.2"
   },
   "devDependencies": {
