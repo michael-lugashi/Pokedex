@@ -4,8 +4,8 @@ const router = express.Router();
 const Pokedex = require('pokedex-promise-v2');
 const P = new Pokedex();
 const fs = require('fs');
-const path = require('path');
 const os = require('os');
+const path = require('path');
 
 // const mkdirp = require('mkdirp');
 

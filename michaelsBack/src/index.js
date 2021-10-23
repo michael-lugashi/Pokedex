@@ -6,6 +6,7 @@ const app = express();
 const pokemonRouter = require('./routers/getPokemon');
 const queryRouter = require('./routers/queryPokemon');
 const catchRouter = require('./routers/putCatchPokemon');
+const releasePokemon = require('./routers/releasePokemon');
 const port = 3000;
 
 // start the server
@@ -23,6 +24,7 @@ app.use((req, res, next) => {
 app.use('/pokemon/get/', pokemonRouter);
 app.use('/pokemon/', queryRouter);
 app.use('/pokemon/catch/', catchRouter)
+app.use('/pokemon/release/', releasePokemon)
 // app.get('/pokemon/get/:id', (req, res) => {
 //   console.log(req.params.id);
 //   P.getPokemonByName(req.params.id).then((pokemon) => {
