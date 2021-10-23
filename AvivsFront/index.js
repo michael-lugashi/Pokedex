@@ -6,7 +6,7 @@ const getPokemonByName = async (pokemonName) => { //Async Pokemon data get by na
     try {
         console.log(pokemonName);
         const response = await axios.get(
-            `${baseUrl}pokemon/get/${pokemonName}`
+            //`${baseUrl}pokemon/get/${pokemonName}`
         );
         const data = response.data;
         const pokemonObject = pokemonCreator(data.name, data.height, data.weight, data.types, data.id); //Creates a new Pokemon object
@@ -15,6 +15,7 @@ const getPokemonByName = async (pokemonName) => { //Async Pokemon data get by na
         console.error("Invalid name or ID")
     }
 };
+//`${baseUrl}pokemon/?pokemon=${pokemonName}` //query operator
 
 
 // Get pokemon type stats through API
