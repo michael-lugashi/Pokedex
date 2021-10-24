@@ -1,10 +1,7 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const Pokedex = require('pokedex-promise-v2');
-const P = new Pokedex();
 const fs = require('fs');
-const os = require('os');
 const releaseError = require('../middleware/releaseError');
 
 router.delete(
@@ -17,27 +14,12 @@ router.delete(
       (err) => {
         if (err) {
           next();
-          // releaseError(err, req, res)
-          // res.status(403).send('That pokemon has not been caught yet');
           return;
         }
         res.send('delete succesful');
-        // if no error, file has been deleted successfully
         console.log('File deleted!');
       }
     );
-    //   fs.existsSync(`./src/users/${os.userInfo().username}/${req.params.id}.json`, (exists)=>{
-    //       if (!exists) {
-    //           res.status(403).send('That pokemon has not been caught yet')
-    //           return
-    //       }
-
-    //   });
-    //   P.getPokemonByName(req.params.id).then((pokemon) => {
-    //     // console.log(pokemon)
-
-    //     res.send(pokemon);
-    //   });
   },
   releaseError
 );
