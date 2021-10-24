@@ -4,15 +4,22 @@
 const express = require('express');
 const router = express.Router();
 const Pokedex = require('pokedex-promise-v2');
+const validateUser = require('../middleware/validateUser')
+const pokemonNotFound = require('../middleware/pokemonNotFound');
 const P = new Pokedex();
 
-router.get('/:id', (req, res) => {
+
+router.get('/:id', validateUser, (req, res, next) => {
     const pokemonId = req.params.id;
-    P.getPokemonByName(pokemonId).then((pokemon) => {
-        console.log(pokemon)
-        res.send(pokemon);
-    })
-    
-})
+    P.getPokemonByName(pokemonId)
+        .then((pokemon) => {
+            res.send(pokemon);
+        })
+        .catch(() => {
+            next();
+        });
+},
+  pokemonNotFound
+)
 
 module.exports = router;

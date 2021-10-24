@@ -1,25 +1,17 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const Pokedex = require('pokedex-promise-v2');
-const P = new Pokedex();
 const fs = require('fs');
-const os = require('os');
+const releaseError = require('../middleware/releaseError');
+const validateUser = require('../middleware/validateUser')
 
-router.delete('/:id', (req, res) => {
-    console.log(req.params.id);
-    fs.unlink(
-      `./src/users/${os.userInfo().username}/${req.params.id}.json`,
-      (err) => {
-        if (err) {
-          res.status(403).send('That pokemon has not been caught yet');
-          return;
-        }
-        res.send('delete succesful')
-        // if no error, file has been deleted successfully
+router.delete('/:id', validateUser, releaseError,
+  (req, res, next) => {
+    const username = req.headers.username;
+    console.log(username);
+    fs.unlink(`./src/users/${username}/${req.params.id}.json`),
+        res.send('delete succesful');
         console.log('File deleted!');
-      }
-    );
-  });
-  
-  module.exports = router;
+      });
+
+module.exports = router;

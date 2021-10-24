@@ -1,12 +1,12 @@
 //<---------------- API ----------------->
-let userName = null; //Global user name - starts as null
+let userName = "false"; //Global user name - starts as null
 //Post your initial user name to the server 
-const baseUrl = "http://localhost:3000/"; //API "GET" URL
+const baseUrl = "http://localhost:3000"; //API "GET" URL
 const postUserName = async () => { 
     try {
         const response = await axios.post(
             `${baseUrl}/info`,
-            { username: userName }
+            {username: userName}
         )
         const data = response.data;
         userName = data.username;
@@ -17,11 +17,10 @@ const postUserName = async () => {
 };
 
 // Get pokemon stats by ID through API (pokemonRouter.js)
-const getPokemonById = async (pokemonId) => { //Async Pokemon data get by name query
+const getPokemonById = async (pokemonId) => { //Async Pokemon data get by ID
     try {
-        console.log(pokemonId);
         const response = await axios.get(
-            `${baseUrl}pokemon/get/${pokemonId}`,
+            `${baseUrl}/pokemon/get/${pokemonId}`,
             {
                 headers: {
                     'username': userName
@@ -31,12 +30,63 @@ const getPokemonById = async (pokemonId) => { //Async Pokemon data get by name q
         const pokemonObject = pokemonCreator(data.name, data.height, data.weight, data.types, data.id); //Creates a new Pokemon object
         return(pokemonObject);
     } catch (error) {
-        console.error("Invalid name or ID")
+        const errorStatus = error.response.status;
+        if(errorStatus === 401){
+            alert(error.response.data);
+        }else{
+            alert("Invalid Pokemon Name/ID");
+        }
     }
 };
 //`${baseUrl}pokemon/?pokemon=${pokemonName}` //query operator
 
+// Get pokemon stats by ID through API (pokemonRouter.js)
+const catchPokemon = async (pokemonId) => { //Async Pokemon data get by name query
+    try {
+        const response = await axios.put(
+            `${baseUrl}/pokemon/catch/${pokemonId}`,
+            pokemonId,
+            {
+                headers: {
+                    'username': userName
+                }
+            });
+        const data = response.data;
+        return(data);
+    } catch (error) {
+        const errorStatus = error.response.status;
+        console.log(errorStatus);
+        if(errorStatus === 401 || errorStatus === 403){
+            alert(error.response.data);
+        }else{
+            alert("Invalid Pokemon Name/ID");
+        }
+    }
+};
 
+// Get pokemon stats by ID through API (pokemonRouter.js)
+const releasePokemon = async (pokemonId) => { //Async Pokemon data get by name query
+    try {
+        const response = await axios.delete(
+            `${baseUrl}/pokemon/release/${pokemonId}`,
+            pokemonId,
+            {
+                headers: {
+                    'username': userName
+                }
+            });
+        const data = response.data;
+        return(data);
+    } catch (error) {
+        const errorStatus = error.response.status;
+        console.log(errorStatus);
+        if(errorStatus === 401 || errorStatus === 403){
+            alert(error.response.data);
+        }else{
+            alert("Invalid Pokemon Name/ID");
+        }
+    }
+};
 
 // Get pokemon type stats through API
 const getTypeRelatedPokemons = async (typeName) => { //Async Type data get by ID query
@@ -65,6 +115,8 @@ async function resultsDivUpdate(pokemonName){
 };
 
 //<--Event Listeners-->
+resultDiv.addEventListener("click", createListOfRelatedPokemons);
+
 //Click eventlistener in Search Button element
 searchBtn.addEventListener("click", async (e)=>{ //Async event listener on search button click 
     e.preventDefault();
@@ -72,17 +124,15 @@ searchBtn.addEventListener("click", async (e)=>{ //Async event listener on searc
    resultsDivUpdate(pokemonName);
 });
 
-//Image hover handler
-function imageHover(e){
-        const frontImageSource = e.target.getAttribute("src"); //Gets the front image URL from the attribute
-        const backImageSource = frontImageSource.replace("/pokemon/", "/pokemon/back/") //Replaces the front image URL to a path that leads to the back image
-        e.target.setAttribute("src", backImageSource); //Sets the back URL as an attribute
-        e.target.addEventListener("mouseleave", (e)=>{ //Listens to a mouse leave event on the Image
-            e.target.setAttribute("src", frontImageSource); //Sets the back URL as an attribute
-        });
+//<--Event Handlers-->
+
+//Related name click handler
+function relatedNameClick(e){
+    const pokemonName = e.target.textContent;
+    searchInput.value = pokemonName; //Rests the input value of the search input
+    resultsDivUpdate(pokemonName); //Rests the results <div>
 };
 
-resultDiv.addEventListener("click", createListOfRelatedPokemons);
 //Type click handler
 async function createListOfRelatedPokemons(e){
     if(e.target.className === "type-class"){ //Validates the selected element by class name
@@ -91,12 +141,29 @@ async function createListOfRelatedPokemons(e){
         e.target.appendChild(listOfPokemonsElement); //Appends the list as a child of the specific Type
     }
 };
-//Related name click handler
-function relatedNameClick(e){
-    const pokemonName = e.target.textContent;
-    searchInput.value = pokemonName; //Rests the input value of the search input
-    resultsDivUpdate(pokemonName); //Rests the results <div>
+
+//Image hover handler
+function imageHover(e){
+    const frontImageSource = e.target.getAttribute("src"); //Gets the front image URL from the attribute
+    const backImageSource = frontImageSource.replace("/pokemon/", "/pokemon/back/") //Replaces the front image URL to a path that leads to the back image
+    e.target.setAttribute("src", backImageSource); //Sets the back URL as an attribute
+    e.target.addEventListener("mouseleave", (e)=>{ //Listens to a mouse leave event on the Image
+        e.target.setAttribute("src", frontImageSource); //Sets the back URL as an attribute
+    });
 };
+
+//Catch click handler
+async function handleCatch(e){
+    e.preventDefault();
+    resultDiv.innerText = await catchPokemon(searchInput.value);
+};
+
+//Release clivk handler
+async function handleRelease(e){
+    e.preventDefault();
+    console.log(releasePokemon(searchInput.value));
+    resultDiv.innerText = await releasePokemon(searchInput.value);
+}
 
 //<--Creators-->
 //Create element for each name in the array of pokemons
@@ -135,7 +202,12 @@ function createPokemonElement({ name, height, weight, types, imgSource }) {
     //Pokemon Image (<img>)
     const imgEl = createElement("img", [] ,["image-class"], {src: imgSource});
     imgEl.addEventListener("mouseover", imageHover)
-    return createElement("div", [nameEl, heightEl, weightEl, typesEl, imgEl], ["pokemon-class"]);
+    //Catch button
+    const catchButton = createElement("button", ["CATCH!"], ["catch-button-class"]);
+    catchButton.addEventListener("click", handleCatch);
+    const releaseButton = createElement("button", ["RELEASE!"], ["release-button-class"]);
+    releaseButton.addEventListener("click", handleRelease);
+    return createElement("div", [nameEl, heightEl, weightEl, typesEl, imgEl, catchButton, releaseButton], ["pokemon-class"]);
 };
 
 //Element creator 
@@ -203,9 +275,9 @@ function handleLogin(e){
         alert("Invalid Username")
     }else{
         userName = loginInput.value; //Assigns the global userName with the new input
-        loginInput.value = userName; 
-        openButton.innerText = userName;
-        postUserName();
+        loginInput.value = userName; //Assigns the userName to the input value
+        openButton.innerText = userName; //Changes the button inner text to userName
+        postUserName(); //Activate the post username request to the server
         closeForm();
     }
 }
