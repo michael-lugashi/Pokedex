@@ -1,4 +1,6 @@
 //<---------------- API ----------------->
+let userName = null; //Global user name - starts as null
+//Post your initial user name to the server 
 const baseUrl = "http://localhost:3000/"; //API "GET" URL
 const postUserName = async () => { 
     try {
@@ -14,13 +16,12 @@ const postUserName = async () => {
     }
 };
 
-// Get pokemon stats by name or ID through API (pokemonRouter.js)
-
-const getPokemonByName = async (pokemonName) => { //Async Pokemon data get by name query
+// Get pokemon stats by ID through API (pokemonRouter.js)
+const getPokemonById = async (pokemonId) => { //Async Pokemon data get by name query
     try {
-        console.log(pokemonName);
+        console.log(pokemonId);
         const response = await axios.get(
-            `${baseUrl}pokemon/get/${pokemonName}`,
+            `${baseUrl}pokemon/get/${pokemonId}`,
             {
                 headers: {
                     'username': userName
@@ -51,13 +52,12 @@ const getTypeRelatedPokemons = async (typeName) => { //Async Type data get by ID
 };
 
 //<---------------- DOM ------------------->
-const userName = "";
 const searchBtn = document.getElementById("search-btn");
 const searchInput = document.getElementById("search-input");
 const resultDiv = document.getElementById("result")
 
 async function resultsDivUpdate(pokemonName){
-    const pokemonObject = await getPokemonByName(pokemonName); //Pokemon object recieved
+    const pokemonObject = await getPokemonById(pokemonName); //Pokemon object recieved
     const pokemonElement = createPokemonElement(pokemonObject); //Pokemon element created
     createTypesElements(pokemonObject.types); //Types list element creator
     resultDiv.innerHTML = "Result:"; //Clears the results <div>
@@ -184,8 +184,36 @@ function pokemonCreator(name, height, weight, types, id){
     pokemon.name = name;
     pokemon.height = height;
     pokemon.weight = weight;
-    pokemon.types = types;
+    pokemon.types = types; 
     //changes the ID in the URL to get the selective image path
     pokemon.imgSource = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
     return pokemon;
 };
+
+//<---------------- Pop Up Form ------------------->
+
+const submitLogin = document.getElementById("login-button");
+const loginInput = document.getElementById("username-input");
+const openButton = document.getElementById("openButton");
+submitLogin.addEventListener("click", handleLogin);
+
+function handleLogin(e){
+    e.preventDefault();
+    if(loginInput.value === ""){ //Validates the username input
+        alert("Invalid Username")
+    }else{
+        userName = loginInput.value; //Assigns the global userName with the new input
+        loginInput.value = userName; 
+        openButton.innerText = userName;
+        postUserName();
+        closeForm();
+    }
+}
+
+function openForm() {
+    document.getElementById("myForm").style.display = "block";
+  }
+  
+  function closeForm() {
+    document.getElementById("myForm").style.display = "none";
+  }
