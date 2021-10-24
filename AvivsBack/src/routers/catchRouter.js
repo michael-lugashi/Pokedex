@@ -7,10 +7,6 @@ const catchError = require('../middleware/catchError');
 const P = new Pokedex();
 const fs = require('fs');
 const os = require('os');
-//const path = require('path');
-
-
-// const mkdirp = require('mkdirp');
 
 router.put('/:id', validateUser, catchError, (req, res) => {
   P.getPokemonByName(req.params.id)

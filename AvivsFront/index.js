@@ -45,7 +45,7 @@ const catchPokemon = async (pokemonId) => { //Async Pokemon data get by name que
     try {
         const response = await axios.put(
             `${baseUrl}/pokemon/catch/${pokemonId}`,
-            pokemonId,
+            pokemonId,  //Put request must have a body
             {
                 headers: {
                     'username': userName
@@ -69,7 +69,6 @@ const releasePokemon = async (pokemonId) => { //Async Pokemon data get by name q
     try {
         const response = await axios.delete(
             `${baseUrl}/pokemon/release/${pokemonId}`,
-            pokemonId,
             {
                 headers: {
                     'username': userName
@@ -105,6 +104,7 @@ const getTypeRelatedPokemons = async (typeName) => { //Async Type data get by ID
 const searchBtn = document.getElementById("search-btn");
 const searchInput = document.getElementById("search-input");
 const resultDiv = document.getElementById("result")
+const listBtn = document.getElementById("list-btn");
 
 async function resultsDivUpdate(pokemonName){
     const pokemonObject = await getPokemonById(pokemonName); //Pokemon object recieved
@@ -158,10 +158,9 @@ async function handleCatch(e){
     resultDiv.innerText = await catchPokemon(searchInput.value);
 };
 
-//Release clivk handler
+//Release click handler
 async function handleRelease(e){
     e.preventDefault();
-    console.log(releasePokemon(searchInput.value));
     resultDiv.innerText = await releasePokemon(searchInput.value);
 }
 
