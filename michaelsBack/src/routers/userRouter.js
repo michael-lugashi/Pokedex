@@ -6,7 +6,8 @@ const P = new Pokedex();
 
 router.post('', (req, res) => {
     console.log(req.body)
-    res.append(JSON.stringify(req.body));
+    // res.append(JSON.stringify(req.body));
+    // req.set(req.body)
     res.send(req.body)
 });
 

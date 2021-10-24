@@ -8,6 +8,7 @@ const queryRouter = require('./routers/queryPokemon');
 const catchRouter = require('./routers/putCatchPokemon');
 const releasePokemon = require('./routers/releasePokemon');
 const user = require('./routers/userRouter');
+const error = require('./middleware/errorHandler');
 const port = 3000;
 
 // start the server
@@ -28,6 +29,9 @@ app.use('/pokemon/', queryRouter);
 app.use('/pokemon/catch/', catchRouter)
 app.use('/pokemon/release/', releasePokemon)
 app.use('/info', user)
+
+// errhandling
+app.use(error)
 // app.get('/pokemon/get/:id', (req, res) => {
 //   console.log(req.params.id);
 //   P.getPokemonByName(req.params.id).then((pokemon) => {

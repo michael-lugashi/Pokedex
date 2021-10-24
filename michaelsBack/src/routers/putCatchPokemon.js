@@ -6,10 +6,10 @@ const P = new Pokedex();
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
+const catchError = require('../middleware/catchError');
 
-// const mkdirp = require('mkdirp');
 
-router.put('/:id', (req, res) => {
+router.put('/:id', catchError, (req, res) => {
   // console.log(path.dirname)
   P.getPokemonByName(req.params.id).then((pokemon) => {
     // console.log(pokemon)
@@ -27,23 +27,28 @@ router.put('/:id', (req, res) => {
       id,
     };
     // console.log(os.userInfo());
-    if (
-      fs.existsSync(
-        `./src/users/${os.userInfo().username}/${req.params.id}.json`
-      )
-    ) {
-      res.status(403).send('This pokemon is already cought');
-      return;
-      console.log('brave');
-    }
-    if (!fs.existsSync(`./src/users/${os.userInfo().username}`)) {
-      fs.mkdirSync(`./src/users/${os.userInfo().username}`);
+    console.log(req.headers.username);
+    const username = req.headers.username;
+    console.log(username);
+    // fs.exists(`./src/users/${username}/${req.params.id}.json`, (exists)=>{
+    //     const err = new Error('Already Exists')
+    //     err.status = 403
+    //     error(err, req, res)
+    //     return
+    // })
+        
+    //   res.status(403).send('This pokemon is already cought');
+    //   return;
+    //   console.log('brave');
+    // }
+    if (!fs.existsSync(`./src/users/${username}`)) {
+      fs.mkdirSync(`./src/users/${username}`);
     }
     // fs.mkdir('./src/users/max-lang', (err) => {
     //     res.send(pokemonFiltered);
     // });
     fs.writeFileSync(
-      `./src/users/${os.userInfo().username}/${req.params.id}.json`,
+      `./src/users/${username}/${req.params.id}.json`,
       JSON.stringify(pokemonFiltered)
     );
     res.send(req.params.id);

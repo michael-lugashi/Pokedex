@@ -5,17 +5,23 @@ const Pokedex = require('pokedex-promise-v2');
 const P = new Pokedex();
 const fs = require('fs');
 const os = require('os');
+const releaseError = require('../middleware/releaseError');
 
-router.delete('/:id', (req, res) => {
+router.delete(
+  '/:id',
+  (req, res, next) => {
+    const username = req.headers.username;
     console.log(req.params.id);
     fs.unlink(
-      `./src/users/${os.userInfo().username}/${req.params.id}.json`,
+      `./src/users/${username}/${req.params.id}.json`,
       (err) => {
         if (err) {
-          res.status(403).send('That pokemon has not been caught yet');
+          next();
+          // releaseError(err, req, res)
+          // res.status(403).send('That pokemon has not been caught yet');
           return;
         }
-        res.send('delete succesful')
+        res.send('delete succesful');
         // if no error, file has been deleted successfully
         console.log('File deleted!');
       }
@@ -25,13 +31,15 @@ router.delete('/:id', (req, res) => {
     //           res.status(403).send('That pokemon has not been caught yet')
     //           return
     //       }
-  
+
     //   });
     //   P.getPokemonByName(req.params.id).then((pokemon) => {
     //     // console.log(pokemon)
-  
+
     //     res.send(pokemon);
     //   });
-  });
-  
-  module.exports = router;
+  },
+  releaseError
+);
+
+module.exports = router;
