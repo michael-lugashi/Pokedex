@@ -1,14 +1,11 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const Pokedex = require('pokedex-promise-v2');
-const P = new Pokedex();
+const validateUser = require('../middleware/validateUser')
 const fs = require('fs');
-const path = require('path');
-const os = require('os');
 
-router.get('', (req, res) => {
-    const userName = os.userInfo().username;
+router.get('', validateUser, (req, res, next) => {
+    const userName = req.headers.username;
     let files;
     if (!fs.existsSync(`./src/users/${userName}`)) {
         res.status(403).send('You have 0 Pokemons');
@@ -18,7 +15,7 @@ router.get('', (req, res) => {
       for(let i = 0; i < files.length; i++){
         files[i] = fs.readFileSync(`./src/users/${userName}/${files[i]}`).toString();
       }
-        console.log(files);
+        console.log("files sent!");
         res.send(files); 
 })
 

@@ -1,3 +1,4 @@
+
 //<---------------- API ----------------->
 let userName = "false"; //Global user name - starts as null
 //Post your initial user name to the server 
@@ -87,6 +88,29 @@ const releasePokemon = async (pokemonId) => { //Async Pokemon data get by name q
     }
 };
 
+//Get the list of your caught Pokemons
+const listMyPokemons = async () => {
+    try {
+        const response = await axios.get(
+            `${baseUrl}/pokemon/`,
+            {
+                headers: {
+                    'username': userName
+                }
+            });
+        const listOfMyPokemons = response.data;
+        return(listOfMyPokemons);
+    } catch (error) {
+        const errorStatus = error.response.status;
+        if(errorStatus === 401 || errorStatus === 403){
+            alert(error.response.data);
+        }else{
+            alert("Invalid Pokemon Name/ID");
+        }
+    }
+};
+
+
 // Get pokemon type stats through API
 const getTypeRelatedPokemons = async (typeName) => { //Async Type data get by ID query
     try {
@@ -99,6 +123,8 @@ const getTypeRelatedPokemons = async (typeName) => { //Async Type data get by ID
         console.error("Invalid ID")
     }
 };
+
+
 
 //<---------------- DOM ------------------->
 const searchBtn = document.getElementById("search-btn");
@@ -124,6 +150,7 @@ searchBtn.addEventListener("click", async (e)=>{ //Async event listener on searc
    resultsDivUpdate(pokemonName);
 });
 
+listBtn.addEventListener("click", listHandler)
 //<--Event Handlers-->
 
 //Related name click handler
@@ -162,6 +189,18 @@ async function handleCatch(e){
 async function handleRelease(e){
     e.preventDefault();
     resultDiv.innerText = await releasePokemon(searchInput.value);
+}
+
+//List click handler
+async function listHandler(e){
+    e.preventDefault();
+    let output ="";
+    let list = await listMyPokemons();
+    console.log(list);
+    list.forEach(pokemon => {
+        output += (JSON.parse(pokemon).name) + ", ";
+    });
+    resultDiv.innerText = output;
 }
 
 //<--Creators-->
