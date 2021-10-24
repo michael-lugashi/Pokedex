@@ -1,13 +1,31 @@
 //<---------------- API ----------------->
+const baseUrl = "http://localhost:3000/"; //API "GET" URL
+const postUserName = async () => { 
+    try {
+        const response = await axios.post(
+            `${baseUrl}/info`,
+            { username: userName }
+        )
+        const data = response.data;
+        userName = data.username;
+        return(data);
+    } catch (error) {
+        console.error("No User Name")
+    }
+};
 
 // Get pokemon stats by name or ID through API (pokemonRouter.js)
-const baseUrl = "http://localhost:3000/"; //API "GET" URL
+
 const getPokemonByName = async (pokemonName) => { //Async Pokemon data get by name query
     try {
         console.log(pokemonName);
         const response = await axios.get(
-            //`${baseUrl}pokemon/get/${pokemonName}`
-        );
+            `${baseUrl}pokemon/get/${pokemonName}`,
+            {
+                headers: {
+                    'username': userName
+                }
+            });
         const data = response.data;
         const pokemonObject = pokemonCreator(data.name, data.height, data.weight, data.types, data.id); //Creates a new Pokemon object
         return(pokemonObject);
@@ -16,6 +34,7 @@ const getPokemonByName = async (pokemonName) => { //Async Pokemon data get by na
     }
 };
 //`${baseUrl}pokemon/?pokemon=${pokemonName}` //query operator
+
 
 
 // Get pokemon type stats through API
@@ -32,7 +51,7 @@ const getTypeRelatedPokemons = async (typeName) => { //Async Type data get by ID
 };
 
 //<---------------- DOM ------------------->
-
+const userName = "";
 const searchBtn = document.getElementById("search-btn");
 const searchInput = document.getElementById("search-input");
 const resultDiv = document.getElementById("result")

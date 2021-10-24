@@ -8,6 +8,7 @@ const queryRouter = require('./routers/queryRouter');
 const catchRouter = require('./routers/catchRouter');
 const listRouter = require('./routers/listRouter');
 const releaseRouter = require('./routers/releaseRouter');
+const userNameRouter = require('./routers/userNameRouter');
 
 const port = 3000;
 
@@ -23,11 +24,14 @@ app.use((req, res, next) => { // chrome only work with this headers !
   next();
 });
 
+app.use(express.json())
+
 // route our app
 app.use('/pokemon/get/', idRouter); //Get request by id with dynamic router 
 app.use('/pokemon/?pokemon=', queryRouter); //Get request by name with query router 
 app.use('/pokemon/catch/', catchRouter); //Put request by id, adds database 
 app.use('/pokemon/release/', releaseRouter);//Put request by id, discards database
 app.use('/pokemon/', listRouter);//Get request, returns list of database
+app.use('/info', userNameRouter)//Get request, returns username
 
  
