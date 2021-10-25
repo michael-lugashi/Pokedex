@@ -1,45 +1,147 @@
 'use strict';
 // Event Listeners
-infoContainer.addEventListener('click', buttons);
-types.addEventListener('click', findPokemonByType);
-pokemonTypeList.addEventListener('click', searchPokemonFromType);
 let username = '';
-username = 'mike';
+const baseUrl = 'http://localhost:3000/';
+document.addEventListener('click', buttons);
+
 
 function buttons(event) {
+  if (event.target.tagName !== 'BUTTON') {
+    // return;
+  }
   const btn = event.target.id;
+  if (btn === 'catch') {
+    catchPokemon('d');
+    return;
+  }
+  if (btn === 'release') {
+    releasePokemon();
+    return;
+  }
+  const input = event.target
+    .closest('div')
+    .querySelector('input')
+    .value.toLowerCase();
+
   if (btn === 'logIn') {
-    alert('d');
+    logIn(input);
+    return;
   }
   if (btn === 'createAccount') {
-    alert('d');
+    createAccount(input);
+    return;
   }
   if (btn === 'searchPokemonById') {
-    searchPokemon(event.target);
+    searchPokemon(input, 'pokemon/get/');
+    return;
   }
   if (btn === 'searchPokemonByName') {
-    alert('d');
+    searchPokemon(input, 'pokemon/?pokemon=');
+    return;
   }
   if (btn === 'seeCoaghtPokemon') {
-    alert('d');
+    seeCoaghtPokemon();
   }
 }
-// Text from the search bar is sent to the api
-function searchPokemon(btn) {
-  const input = btn.closest('div').querySelector('input').value;
-  // console.log(input)
+function seeCoaghtPokemon() {
   axios
-    .get(`http://localhost:3000/pokemon/get/${input.toLowerCase()}`, {
+    .get(`${baseUrl}pokemon/list`, {
       headers: {
-        "username": "mike"
-      }
+        username,
+      },
     })
-    .then((response) => updateDom(response.data))
-    .catch((err) => alert(err + err.message));
+    .then((response) => {
+      clearList()
+      const pokemons=response.data
+      for (const pokemon of pokemons) {
+        createPokemon(JSON.parse(pokemon))
+      }
+    }).catch((err) => {
+      alert(err)
+    })
+}
+function clearList() {
+  coaghtContainer.hidden = false
+  let first = coaghtPokemon.firstElementChild;
+  while (first) {
+    first.remove();
+    first = coaghtPokemon.firstElementChild;
+  }
+}
+function createPokemon(pokemon){
+  console.log(pokemon)
+  let container = document.createElement('div')
+  let img = document.createElement('img')
+  img.src = pokemon.front_default
+  let name = document.createElement('p')
+  name.textContent = pokemon.name
+  container.append(img)
+  container.append(name)
+  coaghtPokemon.append(container)
+}
+
+function releasePokemon() {
+  axios.delete(`${baseUrl}pokemon/release/${displayContainer.pokemon}`, {
+    headers: {
+      username,
+    },
+  }).then(response => {
+    alert(response.data)
+  })
+  .catch(err => {
+    alert(err)
+  })
+}
+function catchPokemon() {
+  console.log(displayContainer.pokemon);
+  axios
+    .put(
+      `${baseUrl}pokemon/catch/${displayContainer.pokemon}`,
+      { body: null }, // put request must have body
+      {
+        headers: {
+          username,
+        },
+      }
+    )
+    .then((response) => alert(response.data))
+    .catch((err) => alert(err));
+}
+function createAccount(input) {
+  axios
+    .post(`${baseUrl}info`, {
+      username: input,
+    })
+    .then((response) => alert(response.data))
+    .catch((err) => alert(err));
+}
+function logIn(input) {
+  // const input = btn.closest('div').querySelector('input').value
+  username = input;
+  const header = document.querySelector('#infoContainer > .headings');
+  header.textContent = `Welcome: ${username}`;
+}
+// Text from the search bar is sent to the api
+function searchPokemon(input, extention) {
+  // const input = btn.closest('div').querySelector('input').value.toLowerCase();
+  console.log(input);
+  axios
+    .get(`${baseUrl}${extention}${input}`, {
+      headers: {
+        username,
+      },
+    })
+    .then((response) => {
+      catchOrRelease.hidden = false;
+      updateDom(response.data);
+    })
+    .catch((err) => alert(err));
 }
 
 // The information from the server is used to update the page
 function updateDom(data) {
+  catchOrRelease.hidden = false;
+  displayContainer.pokemon = data.id;
   namePokemon.textContent = `Name: ${data.name}`;
   height.textContent = `Height: ${data.height}`;
   weight.textContent = `Weight: ${data.weight}`;
@@ -51,17 +153,17 @@ function updateDom(data) {
       types.append(', ');
     }
   }
-  updatePicture(data.id);
+  updatePicture(data.front_default, data.back_default);
 }
 
 // Makes it so when you hover over the pokemon you see its back
-function updatePicture(id) {
-  pokemonPicture.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+function updatePicture(front, back) {
+  pokemonPicture.src = front;
   pokemonPicture.addEventListener('mouseenter', () => {
-    pokemonPicture.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${id}.png`;
+    pokemonPicture.src = back;
   });
   pokemonPicture.addEventListener('mouseout', () => {
-    pokemonPicture.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+    pokemonPicture.src = front;
   });
 }
 
@@ -72,43 +174,4 @@ function createTypeEl(text) {
   return type;
 }
 
-// finds all the pokemon that have that type
-function findPokemonByType(event) {
-  if (event.target.tagName !== 'SPAN') {
-    return;
-  }
-  typeHeading.textContent = `Type: ${event.target.textContent}`;
-  axios
-    .get(`https://pokeapi.co/api/v2/type/${event.target.textContent}`)
-    .then((result) => displayNames(result.data.pokemon));
-}
 
-// all the pokemon that have a certain type are diplayed in the DOM
-function displayNames(pokemon) {
-  let first = pokemonTypeList.firstElementChild;
-  while (first) {
-    first.remove();
-    first = pokemonTypeList.firstElementChild;
-  }
-  for (const poki of pokemon) {
-    console.log(poki.pokemon.name);
-    pokemonTypeList.append(createListEl(poki.pokemon.name));
-  }
-}
-
-// creates a list element for displayNames
-function createListEl(name) {
-  const pokemon = document.createElement('li');
-  pokemon.textContent = name;
-  pokemon.classList.add('pokemonName');
-  return pokemon;
-}
-
-// when you click on a pokemon name from the types list it will be searched
-function searchPokemonFromType(event) {
-  if (event.target.tagName !== 'LI') {
-    return;
-  }
-  search.value = event.target.textContent;
-  searching();
-}

@@ -24,9 +24,7 @@
               placeholder="Log in..."
               class="infoInput"
             />
-            <button class="infoBtn" type="button" id="logIn">
-              Log In
-            </button>
+            <button class="infoBtn" type="button" id="logIn">Log In</button>
           </div>
           <div>
             <input
@@ -79,10 +77,15 @@
             src="https://icon-library.com/images/small-pokeball-icon/small-pokeball-icon-4.jpg"
             alt="picture"
           />
+          <div id="catchOrRelease" hidden>
+          <button id="catch" class="catchOrRelease">Catch</button>
+          <button id="release" class="catchOrRelease">Release</button>
+        </div>
         </div>
       </div>
-      <div id="coaghtContainer">
+      <div id="coaghtContainer" hidden>
         <h2 class="headings">Cought Pokemon</h2>
+        <div id="coaghtPokemon"></div>
       </div>
     </div>
   </body>

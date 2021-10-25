@@ -16,8 +16,7 @@ router.delete(
           next();
           return;
         }
-        res.send('delete succesful');
-        console.log('File deleted!');
+        res.send('release succesful!');
       }
     );
   },

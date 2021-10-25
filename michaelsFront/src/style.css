@@ -17,11 +17,9 @@ body {
   width: 30vw;
   text-align: left;
   text-decoration: underline;
-};
+}
 .mainDisplay {
   max-width: 30vw;
-  display: flex !important;
-  flex-direction: column;
 }
 #displayWelcome {
   width: 100vw;
@@ -29,7 +27,7 @@ body {
   justify-content: space-around;
 }
 #infoContainer:after {
-  content: "";
+  content: '';
   background-color: #991825;
   position: absolute;
   width: 2px;
@@ -38,12 +36,12 @@ body {
   left: 50%;
   display: block;
 }
-#infoContainer{
+#infoContainer {
   max-width: 30vw;
   display: flex !important;
   flex-direction: column;
 }
-.infoInput{
+.infoInput {
   width: 22vw;
   margin-right: -4px;
   font-size: 15px;
@@ -60,7 +58,7 @@ body {
   color: #f9f4ad;
   background-color: #991825;
 }
-.infoBtn:hover{
+.infoBtn:hover {
   color: #991825;
   background-color: #f9f4ad;
 }
@@ -76,17 +74,52 @@ body {
   color: #f9f4ad;
   background-color: #991825;
 }
-#seeCoaghtPokemon:hover{
+#seeCoaghtPokemon:hover {
   color: #991825;
   background-color: #f9f4ad;
 }
 #pokemonPicture{
-  width: 200px;
+  height: 120px;
   margin: auto;
+  margin-top: -25px;
 }
 .list {
+  margin-top: 0;
   padding: 0;
   list-style-type: none;
   color: #991825;
+  font-size: 20px;
+}
+#catchOrRelease{
+  align-self: center;
+
+}
+.catchOrRelease {
+  font-size: 20px;
+  border-radius: 10px;
+  color: #f9f4ad;
+  background-color: #991825;
+  width: 100px;
+}
+.catchOrRelease:hover {
+  color: #991825;
+  background-color: #f9f4ad;
+}
+#displayContainer {
+  display: flex;
+  flex-direction: column;
+}
+#coaghtContainer > h2 {
+  width: 200px;
+  margin-left: calc(50vw - 100px)
+}
+#coaghtContainer {
+  margin-top: 50px;
+}
+#coaghtPokemon {
+  display: flex;
+  justify-content: center;
+  color: #991825;
+  text-align: center;
   font-size: 20px;
 }

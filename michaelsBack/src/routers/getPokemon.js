@@ -12,16 +12,18 @@ router.get(
     P.getPokemonByName(req.params.id)
       .then((pokemon) => {
         // console.log(pokemon)
-        const { name, height, weight, types, front_pic, back_pic, abilities } =
+        const { name, height, weight, types, sprites: {front_default, back_default}, abilities, id } =
           pokemon;
+          console.log(front_default)
         res.json({
           name,
           height,
           weight,
           types,
-          front_pic,
-          back_pic,
+          front_default, 
+          back_default,
           abilities,
+          id,
         });
         // res.send(pokemon);
       })

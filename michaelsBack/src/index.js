@@ -9,35 +9,26 @@ const catchRouter = require('./routers/putCatchPokemon');
 const releasePokemon = require('./routers/releasePokemon');
 const user = require('./routers/userRouter');
 const checkUser = require('./middleware/userHandler');
-const listRouter = require('./routers/listRouter')
+const listRouter = require('./routers/listRouter');
 const port = 3000;
 
 // start the server
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
-app.use((req, res, next) => {
-  // chrome only work with this headers !
+app.use((req, res, next) => { // chrome only work with this headers !
   res.append('Access-Control-Allow-Origin', ['*']);
   res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
   res.append('Access-Control-Allow-Headers', 'Content-Type');
+  res.append("Access-Control-Allow-Headers", "username");
   next();
 });
-app.use(express.json())
-app.use(checkUser)
+app.use(express.json());
+app.use(checkUser);
 // route our app
 app.use('/pokemon/get/', pokemonRouter);
-app.use('/pokemon/?pokemon=', queryRouter);
-app.use('/pokemon/catch/', catchRouter)
-app.use('/pokemon/release/', releasePokemon)
-app.use('/info', user)
-app.use('/pokemon', listRouter)
-
-// errhandling
-// app.get('/pokemon/get/:id', (req, res) => {
-//   console.log(req.params.id);
-//   P.getPokemonByName(req.params.id).then((pokemon) => {
-//     // console.log(pokemon)
-//     res.send(pokemon);
-//   });
-// });
+app.use('/pokemon/', queryRouter);
+app.use('/pokemon/catch/', catchRouter);
+app.use('/pokemon/release/', releasePokemon);
+app.use('/info', user);
+app.use('/pokemon/list', listRouter);
