@@ -3,56 +3,90 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
+  margin-left: 0;
 }
 
-#pokemonPicture {
-  width: 180px;
-}
 .title {
   text-align: center;
   color: #f9f4ad;
   margin-bottom: 3vh;
 }
-.type {
-  color: #dc3545;
-  max-height: 80vh;
-  overflow-y: auto;
-}
-.type::-webkit-scrollbar {
-  width: 10px;
-}
 
-.type::-webkit-scrollbar-track {
-  background: rgb(131, 141, 131, 0);
-  border-radius: 20px;
-}
-
-.type::-webkit-scrollbar-thumb {
-  background-color: burlywood;
-  border-radius: 20px;
-  border: 2px outset cornsilk;
-}
-.fromRight {
-  padding-right: 10vw;
- 
-}
 .headings {
+  color: #991825;
+  width: 30vw;
+  text-align: left;
+  text-decoration: underline;
+};
+.mainDisplay {
+  max-width: 30vw;
+  display: flex !important;
+  flex-direction: column;
+}
+#displayWelcome {
+  width: 100vw;
+  display: flex;
+  justify-content: space-around;
+}
+#infoContainer:after {
+  content: "";
+  background-color: #991825;
+  position: absolute;
+  width: 2px;
+  height: 60vh;
+  top: 20vh;
+  left: 50%;
+  display: block;
+}
+#infoContainer{
+  max-width: 30vw;
+  display: flex !important;
+  flex-direction: column;
+}
+.infoInput{
+  width: 22vw;
+  margin-right: -4px;
+  font-size: 15px;
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+  margin-bottom: 10px;
+  background-color: #f9f4ad;
+}
+.infoBtn {
+  width: 7vw;
+  font-size: 15px;
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 7px;
   color: #f9f4ad;
+  background-color: #991825;
+}
+.infoBtn:hover{
+  color: #991825;
+  background-color: #f9f4ad;
+}
+.subHeading {
+  color: #f9f4ad;
+  text-decoration: underline;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+#seeCoaghtPokemon {
+  font-size: 20px;
+  border-radius: 10px;
+  color: #f9f4ad;
+  background-color: #991825;
+}
+#seeCoaghtPokemon:hover{
+  color: #991825;
+  background-color: #f9f4ad;
+}
+#pokemonPicture{
+  width: 200px;
+  margin: auto;
 }
 .list {
   padding: 0;
   list-style-type: none;
-  color: #dc3545;
+  color: #991825;
   font-size: 20px;
-}
-.pokemonName {
-  background-color: #dc354694;
-  color: #f9f4ad;
-  list-style-type: none;
-  font-size: 20px;
-  margin-right: 3vw;
-  margin-bottom: 2px;
-  border-radius: 20px;
-  padding-left: 5px;
-  overflow: auto;
 }

@@ -1,15 +1,41 @@
 'use strict';
 // Event Listeners
-searchPokemon.addEventListener('click', searching);
+infoContainer.addEventListener('click', buttons);
 types.addEventListener('click', findPokemonByType);
 pokemonTypeList.addEventListener('click', searchPokemonFromType);
+let username = '';
+username = 'mike';
 
+function buttons(event) {
+  const btn = event.target.id;
+  if (btn === 'logIn') {
+    alert('d');
+  }
+  if (btn === 'createAccount') {
+    alert('d');
+  }
+  if (btn === 'searchPokemonById') {
+    searchPokemon(event.target);
+  }
+  if (btn === 'searchPokemonByName') {
+    alert('d');
+  }
+  if (btn === 'seeCoaghtPokemon') {
+    alert('d');
+  }
+}
 // Text from the search bar is sent to the api
-function searching() {
+function searchPokemon(btn) {
+  const input = btn.closest('div').querySelector('input').value;
+  // console.log(input)
   axios
-    .get(`http://localhost:3000/pokemon/get/${search.value.toLowerCase()}`)
+    .get(`http://localhost:3000/pokemon/get/${input.toLowerCase()}`, {
+      headers: {
+        "username": "mike"
+      }
+    })
     .then((response) => updateDom(response.data))
-    .catch(() => alert('That Pokemon does not exist!'));
+    .catch((err) => alert(err + err.message));
 }
 
 // The information from the server is used to update the page
